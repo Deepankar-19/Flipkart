@@ -8,9 +8,11 @@ export default function ViolationDetail() {
   return (
     <div className="flex flex-col gap-6 max-w-5xl mx-auto">
       <div className="flex items-center gap-4">
-        <Button variant="ghost" size="icon" asChild className="hover:bg-secondary">
-          <Link href="/records"><ArrowLeft className="w-5 h-5" /></Link>
-        </Button>
+        <Link href="/records">
+          <Button variant="ghost" size="icon" className="hover:bg-secondary">
+            <ArrowLeft className="w-5 h-5" />
+          </Button>
+        </Link>
         <div>
           <h1 className="text-2xl font-bold flex items-center gap-2 text-foreground">
             Evidence <span className="font-mono text-primary bg-primary/10 px-2 py-0.5 rounded border border-primary/20">EV-9921</span>

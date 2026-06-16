@@ -147,17 +147,15 @@ export default function RecordsPage() {
                   </TableCell>
                   <TableCell className="text-right">
                     <DropdownMenu>
-                      <DropdownMenuTrigger asChild>
-                        <Button variant="ghost" className="h-8 w-8 p-0 text-muted-foreground hover:text-foreground">
-                          <span className="sr-only">Open menu</span>
-                          <MoreHorizontal className="h-4 w-4" />
-                        </Button>
+                      <DropdownMenuTrigger className="flex h-8 w-8 items-center justify-center rounded-md p-0 text-muted-foreground hover:bg-muted hover:text-foreground">
+                        <span className="sr-only">Open menu</span>
+                        <MoreHorizontal className="h-4 w-4" />
                       </DropdownMenuTrigger>
                       <DropdownMenuContent align="end" className="w-[180px] bg-card border-border">
                         <DropdownMenuLabel className="text-xs font-semibold text-muted-foreground uppercase tracking-wider">Record Actions</DropdownMenuLabel>
                         <DropdownMenuSeparator className="bg-border" />
-                        <DropdownMenuItem asChild className="cursor-pointer hover:bg-secondary">
-                          <Link href={`/records/${record.id}`} className="flex items-center">
+                        <DropdownMenuItem className="cursor-pointer hover:bg-secondary p-0">
+                          <Link href={`/records/${record.id}`} className="flex w-full items-center px-1.5 py-1">
                             <Eye className="mr-2 h-4 w-4 text-primary" />
                             View Full Analysis
                           </Link>

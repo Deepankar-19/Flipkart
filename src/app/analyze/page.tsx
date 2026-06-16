@@ -90,11 +90,13 @@ export default function AnalyzeImage() {
               
               <div className="flex flex-col items-center gap-4">
                 <Input type="file" className="hidden" id="file-upload" accept="image/*" onChange={handleFileChange} />
-                <label htmlFor="file-upload">
-                  <Button variant="outline" className="cursor-pointer" asChild>
-                    <span>Browse Files</span>
-                  </Button>
-                </label>
+                <Button 
+                  variant="outline" 
+                  className="cursor-pointer" 
+                  onClick={() => document.getElementById('file-upload')?.click()}
+                >
+                  Browse Files
+                </Button>
                 {file && (
                   <Button onClick={startAnalysis} className="gap-2 w-full max-w-xs mt-4">
                     <Cpu className="w-4 h-4" /> Analyze Now
