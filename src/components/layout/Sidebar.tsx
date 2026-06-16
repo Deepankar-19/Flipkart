@@ -9,7 +9,8 @@ import {
   BarChart3, 
   Activity, 
   Camera, 
-  Settings 
+  Settings,
+  Network
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 
@@ -17,6 +18,7 @@ const navigation = [
   { name: 'Dashboard', href: '/', icon: LayoutDashboard },
   { name: 'Analyze Image', href: '/analyze', icon: ScanSearch },
   { name: 'Violation Records', href: '/records', icon: FileStack },
+  { name: 'System Architecture', href: '/architecture', icon: Network },
   { name: 'Analytics', href: '/analytics', icon: BarChart3 },
   { name: 'System Health', href: '/health', icon: Activity },
   { name: 'Evidence Center', href: '/evidence', icon: Camera },

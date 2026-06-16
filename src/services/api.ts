@@ -40,7 +40,7 @@ export const mockPollJobStatus = async (jobId: string, pollCount: number): Promi
         confidence: 0.98,
         boundingBox: { x: 120, y: 340, width: 200, height: 250 },
         ocr: {
-          text: 'KA01AB1234',
+          text: 'KA03 MN 5678',
           confidence: 0.95,
           boundingBox: { x: 150, y: 500, width: 100, height: 40 }
         },
@@ -72,38 +72,38 @@ export const mockGetEvidenceRecords = async (): Promise<EvidenceRecord[]> => {
   return [
     {
       id: 'ev_1',
-      vehicleNumber: 'TN09AB1234',
+      vehicleNumber: 'TN09 AB 1234',
       violationType: 'Red-Light Violation',
       confidence: 0.97,
       timestamp: new Date(Date.now() - 1000 * 60 * 30).toISOString(),
       status: 'Pending Review',
       thumbnailUrl: 'https://images.unsplash.com/photo-1518175510652-33cc9a08eb67?auto=format&fit=crop&w=300&q=80',
       fullImageUrl: 'https://images.unsplash.com/photo-1518175510652-33cc9a08eb67?auto=format&fit=crop&q=80',
-      location: 'Intersection 4, Anna Salai',
+      location: 'Anna Salai - Mount Road Junction, Chennai',
       cameraInfo: 'CAM-N-442'
     },
     {
       id: 'ev_2',
-      vehicleNumber: 'KA03XY9876',
+      vehicleNumber: 'KA03 MN 5678',
       violationType: 'Wrong-Side Driving',
       confidence: 0.99,
       timestamp: new Date(Date.now() - 1000 * 60 * 120).toISOString(),
       status: 'Verified',
       thumbnailUrl: 'https://images.unsplash.com/photo-1568605117036-5fe5e7bab0b7?auto=format&fit=crop&w=300&q=80',
       fullImageUrl: 'https://images.unsplash.com/photo-1568605117036-5fe5e7bab0b7?auto=format&fit=crop&q=80',
-      location: 'Ring Road, Sector 3',
+      location: 'Outer Ring Road, Bellandur, Bengaluru',
       cameraInfo: 'CAM-W-102'
     },
     {
       id: 'ev_3',
-      vehicleNumber: 'MH12PQ4567',
+      vehicleNumber: 'MH12 PQ 4567',
       violationType: 'Helmet Non-Compliance',
       confidence: 0.94,
       timestamp: new Date(Date.now() - 1000 * 60 * 60 * 5).toISOString(),
       status: 'Issued',
       thumbnailUrl: 'https://images.unsplash.com/photo-1558981806-ec527fa842a9?auto=format&fit=crop&w=300&q=80',
       fullImageUrl: 'https://images.unsplash.com/photo-1558981806-ec527fa842a9?auto=format&fit=crop&q=80',
-      location: 'MG Road',
+      location: 'MG Road - Brigade Road Junction, Bengaluru',
       cameraInfo: 'CAM-S-88'
     }
   ];
