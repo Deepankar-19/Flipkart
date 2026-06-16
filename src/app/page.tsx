@@ -1,65 +1,139 @@
-import Image from "next/image";
+"use client"
 
-export default function Home() {
+import { 
+  Card, 
+  CardContent, 
+  CardDescription, 
+  CardHeader, 
+  CardTitle 
+} from "@/components/ui/card";
+import { 
+  Activity, 
+  Camera, 
+  CarFront, 
+  CheckCircle2, 
+  Clock, 
+  Target 
+} from "lucide-react";
+import { 
+  Area, 
+  AreaChart, 
+  ResponsiveContainer, 
+  Tooltip, 
+  XAxis, 
+  YAxis, 
+  CartesianGrid 
+} from "recharts";
+import { Badge } from "@/components/ui/badge";
+
+const kpis = [
+  { title: "Total Violations", value: "124,592", icon: CarFront, trend: "+12.5%", trendUp: true },
+  { title: "Violations Today", value: "842", icon: Activity, trend: "+4.1%", trendUp: true },
+  { title: "Detection Accuracy", value: "99.4%", icon: Target, trend: "+0.2%", trendUp: true },
+  { title: "OCR Success Rate", value: "98.7%", icon: CheckCircle2, trend: "+1.1%", trendUp: true },
+  { title: "Active Cameras", value: "412/420", icon: Camera, trend: "-2", trendUp: false },
+  { title: "Avg Processing Time", value: "142ms", icon: Clock, trend: "-12ms", trendUp: true },
+];
+
+const trendData = [
+  { time: "00:00", violations: 120 },
+  { time: "04:00", violations: 45 },
+  { time: "08:00", violations: 890 },
+  { time: "12:00", violations: 650 },
+  { time: "16:00", violations: 1100 },
+  { time: "20:00", violations: 430 },
+  { time: "24:00", violations: 90 },
+];
+
+const recentDetections = [
+  { id: "EV-9921", type: "Helmet Non-Compliance", plate: "KA01XY1234", time: "2 mins ago", conf: "99%" },
+  { id: "EV-9920", type: "Red-Light Violation", plate: "TN09AB9876", time: "5 mins ago", conf: "97%" },
+  { id: "EV-9919", type: "Triple Riding", plate: "MH12PQ4567", time: "12 mins ago", conf: "94%" },
+  { id: "EV-9918", type: "Wrong-Side Driving", plate: "DL01CZ0000", time: "15 mins ago", conf: "98%" },
+];
+
+export default function Dashboard() {
   return (
-    <div className="flex flex-col flex-1 items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex flex-1 w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.tsx file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
-        </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
-        </div>
-      </main>
+    <div className="flex flex-col gap-8">
+      <div>
+        <h1 className="text-3xl font-bold tracking-tight text-foreground">Dashboard</h1>
+        <p className="text-muted-foreground mt-1">Executive overview of traffic intelligence systems.</p>
+      </div>
+
+      <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+        {kpis.map((kpi) => (
+          <Card key={kpi.title} className="bg-card/50 backdrop-blur-sm border-border hover:border-primary/50 transition-colors duration-300">
+            <CardHeader className="flex flex-row items-center justify-between pb-2">
+              <CardTitle className="text-sm font-medium text-muted-foreground">
+                {kpi.title}
+              </CardTitle>
+              <kpi.icon className="h-4 w-4 text-primary" />
+            </CardHeader>
+            <CardContent>
+              <div className="text-2xl font-bold text-foreground">{kpi.value}</div>
+              <p className={`text-xs mt-1 ${kpi.trendUp ? 'text-emerald-500' : 'text-destructive'}`}>
+                {kpi.trend} from last period
+              </p>
+            </CardContent>
+          </Card>
+        ))}
+      </div>
+
+      <div className="grid gap-4 md:grid-cols-7 lg:grid-cols-7">
+        <Card className="col-span-4 lg:col-span-5 bg-card/50 backdrop-blur-sm border-border">
+          <CardHeader>
+            <CardTitle className="text-foreground">Violation Trends</CardTitle>
+            <CardDescription>Daily violation detection frequency across all camera nodes.</CardDescription>
+          </CardHeader>
+          <CardContent className="h-[350px]">
+            <ResponsiveContainer width="100%" height="100%">
+              <AreaChart data={trendData} margin={{ top: 10, right: 10, left: -20, bottom: 0 }}>
+                <defs>
+                  <linearGradient id="colorViolations" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="5%" stopColor="oklch(0.7 0.15 200)" stopOpacity={0.3}/>
+                    <stop offset="95%" stopColor="oklch(0.7 0.15 200)" stopOpacity={0}/>
+                  </linearGradient>
+                </defs>
+                <XAxis dataKey="time" stroke="#888888" fontSize={12} tickLine={false} axisLine={false} />
+                <YAxis stroke="#888888" fontSize={12} tickLine={false} axisLine={false} tickFormatter={(value) => `${value}`} />
+                <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="oklch(1 0 0 / 10%)" />
+                <Tooltip 
+                  contentStyle={{ backgroundColor: 'oklch(0.16 0 0)', border: '1px solid oklch(1 0 0 / 15%)', borderRadius: '8px' }}
+                  itemStyle={{ color: 'oklch(0.7 0.15 200)' }}
+                />
+                <Area type="monotone" dataKey="violations" stroke="oklch(0.7 0.15 200)" strokeWidth={2} fillOpacity={1} fill="url(#colorViolations)" />
+              </AreaChart>
+            </ResponsiveContainer>
+          </CardContent>
+        </Card>
+
+        <Card className="col-span-3 lg:col-span-2 bg-card/50 backdrop-blur-sm border-border">
+          <CardHeader>
+            <CardTitle className="text-foreground">Recent Detections</CardTitle>
+            <CardDescription>Live feed from inference edge nodes.</CardDescription>
+          </CardHeader>
+          <CardContent>
+            <div className="space-y-6">
+              {recentDetections.map((detection) => (
+                <div key={detection.id} className="flex items-center group relative p-2 -mx-2 rounded-lg hover:bg-muted/50 transition-colors">
+                  <div className="ml-2 space-y-1 flex-1">
+                    <div className="flex items-center justify-between">
+                      <p className="text-sm font-medium leading-none text-foreground">{detection.plate}</p>
+                      <Badge variant="outline" className="text-xs text-primary border-primary/30 bg-primary/10">
+                        {detection.conf}
+                      </Badge>
+                    </div>
+                    <p className="text-xs text-muted-foreground">
+                      {detection.type}
+                    </p>
+                    <p className="text-[10px] text-muted-foreground/60">{detection.time} • {detection.id}</p>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </CardContent>
+        </Card>
+      </div>
     </div>
   );
 }
