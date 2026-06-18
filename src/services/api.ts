@@ -3,6 +3,81 @@ import { AnalysisResult, EvidenceRecord } from "../types";
 // Mock delays
 const delay = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
 
+const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000';
+
+export const analyzeImage = async (file: File): Promise<AnalysisResult> => {
+  const formData = new FormData();
+  formData.append('file', file);
+
+  const response = await fetch(`${API_URL}/analyze`, {
+    method: 'POST',
+    body: formData,
+  });
+
+  if (!response.ok) {
+    throw new Error(`Analysis failed: ${response.statusText}`);
+  }
+
+  const data = await response.json();
+
+  const jobId = `job_${Math.random().toString(36).substr(2, 9)}`;
+  
+  let annotatedImageUrl = '';
+  if (data.annotated_image_path) {
+    // Extract filename from the absolute path
+    const filename = data.annotated_image_path.split(/[\\/]/).pop();
+    annotatedImageUrl = `${API_URL}/outputs/${filename}`;
+  }
+
+  const frontendDetections = [];
+  const vehicleViolations = [];
+  
+  if (data.helmet_violation) {
+    vehicleViolations.push({
+      id: `v_${Math.random()}`,
+      type: 'Helmet Non-Compliance',
+      confidence: 0.95,
+      severity: 'critical',
+      explanation: 'Detected riders without safety helmets.',
+      boundingBox: { x: 0, y: 0, width: 0, height: 0 }
+    });
+  }
+  
+  if (data.triple_riding) {
+    vehicleViolations.push({
+      id: `v_${Math.random()}`,
+      type: 'Triple Riding',
+      confidence: 0.90,
+      severity: 'high',
+      explanation: `Detected ${data.rider_count} persons on a single two-wheeler.`,
+      boundingBox: { x: 0, y: 0, width: 0, height: 0 }
+    });
+  }
+
+  frontendDetections.push({
+    id: `det_${Math.random()}`,
+    type: 'Two-Wheeler',
+    confidence: 0.99,
+    boundingBox: { x: 0, y: 0, width: 0, height: 0 },
+    ocr: data.number_plate && data.number_plate !== 'UNKNOWN' ? {
+      text: data.number_plate,
+      confidence: data.ocr_confidence || 0.9,
+      boundingBox: { x: 0, y: 0, width: 0, height: 0 }
+    } : undefined,
+    violations: vehicleViolations
+  });
+
+  return {
+    jobId,
+    status: 'completed',
+    timestamp: new Date().toISOString(),
+    originalImage: URL.createObjectURL(file),
+    annotatedImage: annotatedImageUrl || URL.createObjectURL(file),
+    processingTimeMs: 1500,
+    detections: frontendDetections
+  };
+};
+
 export const mockAnalyzeImage = async (file: File): Promise<{ jobId: string; status: string }> => {
   await delay(800); // Network latency mock
   return {

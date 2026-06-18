@@ -7,7 +7,7 @@ import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
 import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
-import { mockAnalyzeImage, mockPollJobStatus } from "@/services/api";
+import { analyzeImage } from "@/services/api";
 import { AnalysisResult } from "@/types";
 import { motion, AnimatePresence } from "framer-motion";
 import { format } from "date-fns";
@@ -68,18 +68,10 @@ export default function AnalyzeImage() {
     setStatus('uploading');
     setProgress(20);
     try {
-      const initRes = await mockAnalyzeImage(file);
       setStatus('processing');
-      setProgress(40);
+      setProgress(60);
       
-      let currentResult = null;
-      for (let i = 0; i < 4; i++) {
-        currentResult = await mockPollJobStatus(initRes.jobId, i);
-        setProgress(40 + (i * 15));
-        if (currentResult.status === 'completed') {
-          break;
-        }
-      }
+      const currentResult = await analyzeImage(file);
       
       if (currentResult && currentResult.status === 'completed') {
         setResult(currentResult);
@@ -89,6 +81,7 @@ export default function AnalyzeImage() {
         setStatus('error');
       }
     } catch (err) {
+      console.error(err);
       setStatus('error');
     }
   };
