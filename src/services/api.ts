@@ -56,7 +56,7 @@ export const analyzeImage = async (file: File): Promise<AnalysisResult> => {
 
   frontendDetections.push({
     id: `det_${Math.random()}`,
-    type: 'Two-Wheeler',
+    type: 'Motorcycle' as const,
     confidence: 0.99,
     boundingBox: { x: 0, y: 0, width: 0, height: 0 },
     ocr: data.number_plate && data.number_plate !== 'UNKNOWN' ? {
