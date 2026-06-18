@@ -1,4 +1,4 @@
-import { AnalysisResult, EvidenceRecord } from "../types";
+import { AnalysisResult, EvidenceRecord, Violation, VehicleDetection } from "../types";
 
 // Mock delays
 const delay = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
@@ -29,8 +29,8 @@ export const analyzeImage = async (file: File): Promise<AnalysisResult> => {
     annotatedImageUrl = `${API_URL}/outputs/${filename}`;
   }
 
-  const frontendDetections = [];
-  const vehicleViolations = [];
+  const frontendDetections: VehicleDetection[] = [];
+  const vehicleViolations: Violation[] = [];
   
   if (data.helmet_violation) {
     vehicleViolations.push({
