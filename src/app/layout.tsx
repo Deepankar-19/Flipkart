@@ -5,6 +5,7 @@ import { ThemeProvider } from "@/components/theme-provider";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { Toaster } from "@/components/ui/sonner";
 import { AppLayout } from "@/components/layout/AppLayout";
+import { DeploymentNoticeModal } from "@/components/DeploymentNoticeModal";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -44,6 +45,7 @@ export default function RootLayout({
               {children}
             </AppLayout>
             <Toaster />
+            <DeploymentNoticeModal />
           </TooltipProvider>
         </ThemeProvider>
       </body>
